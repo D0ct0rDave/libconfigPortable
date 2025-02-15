@@ -2,15 +2,21 @@
 
 workspace "libconfigPortable"
     configurations { "Debug", "Release" }
+    platforms { "Win32", "x64" }	
     location "build" -- Where generated files (like Visual Studio solutions) will be stored
-    architecture "x86_64"
+
+	filter {"platforms:Win32"}
+	architecture "x86"
+	filter {"platforms:x64"}
+	architecture "x86_64"
+	filter {}
 
 project "libconfigPortable"
     kind "StaticLib" -- Change to "SharedLib" for a shared library
     language "C++"
     cppdialect "C++17"
-    targetdir "$(ProjectDir)/../lib/x64/%{cfg.buildcfg}" -- Output directory for binaries
-    objdir "$(ProjectDir)obj/x64/%{cfg.buildcfg}" -- Output directory for intermediate files
+    targetdir "$(ProjectDir)/../lib/%{cfg.platform}/%{cfg.buildcfg}" -- Output directory for binaries
+    objdir "$(ProjectDir)obj/%{cfg.platform}/%{cfg.buildcfg}" -- Output directory for intermediate files
 	characterset("ASCII")
 	sourceDir = "$(ProjectDir)../src"
 
